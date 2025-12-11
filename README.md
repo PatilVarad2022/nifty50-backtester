@@ -17,6 +17,20 @@ A professional-grade quantitative trading backtester for NIFTY 50 index strategi
 * **Implemented Institutional Risk Metrics**: Engineered calculation engine for Sharpe (1.31), Sortino (1.61), and Calmar ratios, exceeding buy-and-hold risk-adjusted returns by 40%.
 * **Optimized Strategy Performance**: Tuned SMA trend-following parameters to achieve 20.8% CAGR with controlled -8.8% max drawdown, demonstrating robust capital preservation during 2020 COVID crash.
 
+## 🖥️ Dashboard Interface
+
+Professional Streamlit dashboard for interactive analysis and strategy comparison.
+
+| Overview | Performance Analysis |
+|----------|----------------------|
+| ![Overview](assets/screenshots/dashboard_view_1.png) | ![Performance](assets/screenshots/dashboard_view_2.png) |
+
+| Risk Metrics | Trade Analysis |
+|--------------|----------------|
+| ![Risk](assets/screenshots/dashboard_view_3.png) | ![Trades](assets/screenshots/dashboard_view_4.png) |
+
+![Detailed Analysis](assets/screenshots/dashboard_view_5.png)
+
 ## 🎯 Overview
 
 This backtesting engine implements momentum and mean-reversion strategies on the NIFTY 50 index with:
