@@ -12,7 +12,21 @@ python generate_report.py --data data/sample_nifty_ohlcv.csv --out outputs/ --st
 • Implemented **open-to-open execution model** and transaction-cost modelling reducing look-ahead risk (code: `src/backtester.py`).
 • Delivered **Streamlit dashboard** for interactive strategy comparison including equity curve and drawdown analysis (see `dashboard/app.py`).
 
-## 🚀 Quick Start
+## �️ Dashboard Interface
+
+Professional Streamlit dashboard for interactive analysis and strategy comparison.
+
+| Overview | Performance Analysis |
+|----------|----------------------|
+| ![Overview](assets/screenshots/dashboard_view_1.png) | ![Performance](assets/screenshots/dashboard_view_2.png) |
+
+| Risk Metrics | Trade Analysis |
+|--------------|----------------|
+| ![Risk](assets/screenshots/dashboard_view_3.png) | ![Trades](assets/screenshots/dashboard_view_4.png) |
+
+![Detailed Analysis](assets/screenshots/dashboard_view_5.png)
+
+## �🚀 Quick Start
 
 ### 1. Installation
 
