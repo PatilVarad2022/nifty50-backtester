@@ -1,80 +1,53 @@
 # NIFTY 50 Professional Backtesting Engine
 
-A professional-grade quantitative trading backtester for NIFTY 50 index strategies, built with rigorous methodology and institutional-quality metrics.
+## NIFTY50 Backtester — Quick results
+• SMA strategy (2015–2025) — **CAGR: 20.8%** | **Sharpe: 1.31** | **Max Drawdown: -8.8%** | **Total Return: +690%**
+Single-command run (reproduces metrics & plots):
+```bash
+python generate_report.py --data data/sample_nifty_ohlcv.csv --out outputs/ --strategy sma
+```
 
-## 📈 Results Snapshot
-**NIFTY50 Backtesting Engine — Evaluated 2015–2025 SMA strategy:**
-• **CAGR**: 20.8% (vs Benchmark 12.5%)
-• **Sharpe Ratio**: 1.31
-• **Max Drawdown**: -8.8%
-• **Win Rate**: 36% (Avg Win/Loss: 3.2x)
-• **Total Returns**: +690%
-
-![Equity Curve](outputs/equity_curve.png)
-
-## 💼 Professional Summary (CV Ready)
-* **Built a Vectorized Backtesting Engine**: Developed a high-performance Python backtester processing 10 years of NIFTY 50 data with 0% look-ahead bias, handling open-to-open execution and realistic transaction costs (10bps).
-* **Implemented Institutional Risk Metrics**: Engineered calculation engine for Sharpe (1.31), Sortino (1.61), and Calmar ratios, exceeding buy-and-hold risk-adjusted returns by 40%.
-* **Optimized Strategy Performance**: Tuned SMA trend-following parameters to achieve 20.8% CAGR with controlled -8.8% max drawdown, demonstrating robust capital preservation during 2020 COVID crash.
-
-## 🖥️ Dashboard Interface
-
-Professional Streamlit dashboard for interactive analysis and strategy comparison.
-
-| Overview | Performance Analysis |
-|----------|----------------------|
-| ![Overview](assets/screenshots/dashboard_view_1.png) | ![Performance](assets/screenshots/dashboard_view_2.png) |
-
-| Risk Metrics | Trade Analysis |
-|--------------|----------------|
-| ![Risk](assets/screenshots/dashboard_view_3.png) | ![Trades](assets/screenshots/dashboard_view_4.png) |
-
-![Detailed Analysis](assets/screenshots/dashboard_view_5.png)
-
-## 🎯 Overview
-
-This backtesting engine implements momentum and mean-reversion strategies on the NIFTY 50 index with:
-- **Proper execution modeling** (no look-ahead bias)
-- **Consistent return calculations** (open-to-open basis)
-- **Comprehensive risk metrics** (Sharpe, Sortino, Calmar, Stability)
-- **Professional UI/UX** (clean, focused Streamlit dashboard)
-- **Robust error handling** (graceful edge case management)
+## For recruiters / CV
+• Built a **Python backtesting engine** for NIFTY50; SMA strategy produced **CAGR 20.8%** and **Sharpe 1.31** (see `outputs/metrics.json`).
+• Implemented **open-to-open execution model** and transaction-cost modelling reducing look-ahead risk (code: `src/backtester.py`).
+• Delivered **Streamlit dashboard** for interactive strategy comparison including equity curve and drawdown analysis (see `dashboard/app.py`).
 
 ## 🚀 Quick Start
 
 ### 1. Installation
 
 ```bash
-# Clone the repository
+# Clone and install dependencies
 git clone <your-repo-url>
 cd Trading_Project
-
-# Create virtual environment
 python -m venv .venv
-.venv\Scripts\activate  # Windows
-# source .venv/bin/activate  # Linux/Mac
-
-# Install dependencies
+.venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 2. Run Backtest (Single Command)
-Run the full backtest pipeline, generate metrics, and produce plots with one command:
+### 2. Run Backtest
+Run the engine with the included sample data:
 
 ```bash
-python src/main.py --strategy sma --config configs/sma.json
+python generate_report.py --data data/sample_nifty_ohlcv.csv --out outputs/ --strategy sma
 ```
 *Output: Generates clean reports in `outputs/`:*
-*   `outputs/metrics.json`: Full performance stats (CAGR, Sharpe, etc.)
+*   `outputs/metrics.json`: Full performance stats
 *   `outputs/equity_curve.png`: Visual equity chart vs Benchmark
-*   `outputs/strategy_results.csv`: Detailed trade-by-trade log
 
 ### 3. Run Dashboard
-Launch the interactive Streamlit dashboard:
 
 ```bash
 streamlit run dashboard/app.py
 ```
+
+## 📊 Features
+
+This backtesting engine implements momentum and mean-reversion strategies on the NIFTY 50 index with:
+- **Proper execution modeling** (no look-ahead bias)
+- **Consistent return calculations** (open-to-open basis)
+- **Comprehensive risk metrics** (Sharpe, Sortino, Calmar, Stability)
+- **Professional UI/UX** (clean, focused Streamlit dashboard)
 
 ### 4. Run Tests
 Validate the engine's mathematical core:
