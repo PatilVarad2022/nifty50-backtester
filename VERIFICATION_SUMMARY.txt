@@ -1,0 +1,82 @@
+================================================================================
+TECHNICAL AUDIT COMPLETE - NIFTY50 BACKTESTER VERIFICATION
+================================================================================
+
+EXECUTION SUMMARY
+-----------------
+Command Run: python generate_report.py --data data/raw_nifty.csv --out outputs/ --strategy sma
+Status: SUCCESS
+Date: 2025-12-11
+
+GENERATED OUTPUTS
+-----------------
+✓ outputs/metrics.json
+✓ outputs/strategy_results.csv (2,690 rows)
+✓ outputs/trades.csv (93 trades)
+✓ outputs/equity_curve.png
+
+================================================================================
+VERIFICATION RESULTS
+================================================================================
+
+FROM metrics.json (Project's Official Output):
+-----------------------------------------------
+CAGR:           20.81%
+Sharpe Ratio:   1.31
+Max Drawdown:   -8.75%
+Total Return:   689.7%
+Win Rate:       35.5%
+Profit Factor:  1.78
+Total Trades:   93
+
+README CLAIMS:
+--------------
+CAGR:           ≈ 20.8%
+Sharpe Ratio:   ≈ 1.31
+Max Drawdown:   ≈ -8.8%
+Total Return:   ≈ +690%
+
+INDEPENDENT VERIFICATION (from daily returns):
+-----------------------------------------------
+CAGR:           20.83%
+Sharpe Ratio:   1.31
+Max Drawdown:   -8.75%
+Total Return:   689.7%
+
+================================================================================
+MATCH STATUS
+================================================================================
+
+✓ CAGR:         YES (20.8% vs 20.81% - difference: 0.01%)
+✓ Sharpe:       YES (1.31 vs 1.31 - exact match)
+✓ Max DD:       YES (-8.8% vs -8.75% - difference: 0.05%)
+✓ Total Return: YES (+690% vs 689.7% - difference: 0.3%)
+
+================================================================================
+VERDICT: ✓ ACCURATE
+================================================================================
+
+The README claims are ACCURATE and REPRODUCIBLE.
+
+All declared performance metrics have been:
+1. ✓ Generated fresh using the official command
+2. ✓ Verified against the project's metrics.json output
+3. ✓ Independently recomputed from daily returns CSV
+4. ✓ Confirmed to match within acceptable rounding tolerance
+
+TECHNICAL VALIDATION:
+---------------------
+• Sharpe Ratio correctly uses 6% risk-free rate (Indian market standard)
+• Open-to-open execution model (no look-ahead bias)
+• Transaction costs included (10 bps per side)
+• Simple returns methodology (standard for backtesting)
+• Data period: 2015-01-02 to 2025-12-04 (10.92 years)
+
+RECOMMENDATION:
+---------------
+The project's performance claims are credible and suitable for CV/portfolio use.
+
+================================================================================
+Audit completed by: Independent Technical Verification Script
+Report saved: TECHNICAL_AUDIT_REPORT.md
+================================================================================

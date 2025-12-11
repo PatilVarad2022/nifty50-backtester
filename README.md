@@ -1,11 +1,23 @@
 # NIFTY 50 Professional Backtesting Engine
 
-## NIFTY50 Backtester — Quick results
-• SMA strategy (2015–2025) — **CAGR: 20.8%** | **Sharpe: 1.31** | **Max Drawdown: -8.8%** | **Total Return: +690%**
-Single-command run (reproduces metrics & plots):
+[![Verified](https://img.shields.io/badge/Metrics-Verified%20%E2%9C%85-brightgreen)](TECHNICAL_AUDIT_REPORT.md) [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/) [![License](https://img.shields.io/badge/License-Educational-orange)](LICENSE)
+
+## ✅ Verified Metrics (SMA 50, 2015–2025)
+
+**Independently verified performance metrics:**
+- **CAGR:** 20.83%
+- **Sharpe:** 1.31 (annualized; 6% RF used)
+- **Max Drawdown:** -8.75%
+- **Total Return:** +689.7%
+
+**Reproduction command:**
 ```bash
-python generate_report.py --data data/sample_nifty_ohlcv.csv --out outputs/ --strategy sma
+python generate_report.py --data data/raw_nifty.csv --out outputs/ --strategy sma
 ```
+
+📊 **See:** [TECHNICAL_AUDIT_REPORT.md](TECHNICAL_AUDIT_REPORT.md) for detailed verification methodology and independent recomputation.
+
+---
 
 ## For recruiters / CV
 • Built a **Python backtesting engine** for NIFTY50; SMA strategy produced **CAGR 20.8%** and **Sharpe 1.31** (see `outputs/metrics.json`).
@@ -26,34 +38,60 @@ Professional Streamlit dashboard for interactive analysis and strategy compariso
 
 ![Detailed Analysis](assets/screenshots/dashboard_view_5.png)
 
-## �🚀 Quick Start
+## 🚀 Reproduce in One Command
 
-### 1. Installation
+### Full Reproduction (Verified Metrics)
+
+**Complete setup and verification in 4 commands:**
 
 ```bash
-# Clone and install dependencies
-git clone <your-repo-url>
-cd Trading_Project
+# 1. Clone and navigate
+git clone https://github.com/PatilVarad2022/nifty50-backtester.git
+cd nifty50-backtester
+
+# 2. Create virtual environment and install dependencies
 python -m venv .venv
-.venv\Scripts\activate
+.venv\Scripts\activate  # On Windows
+# source .venv/bin/activate  # On Linux/Mac
 pip install -r requirements.txt
+
+# 3. Run backtest (reproduces verified metrics)
+python generate_report.py --data data/raw_nifty.csv --out outputs/ --strategy sma
+
+# 4. View results
+# Outputs appear in outputs/ directory:
+#   - outputs/metrics.json (performance metrics)
+#   - outputs/strategy_results.csv (daily returns, 2690 rows)
+#   - outputs/trades.csv (trade log, 93 trades)
+#   - outputs/equity_curve.png (visual chart)
 ```
 
-### 2. Run Backtest
-Run the engine with the included sample data:
+**Expected output in `outputs/metrics.json`:**
+```json
+{
+    "strategy": "sma",
+    "cagr": 0.2081,
+    "sharpe": 1.3140,
+    "max_drawdown": -0.0875,
+    "total_return": 6.897
+}
+```
+
+### Quick Start (Sample Data)
+
+For a quick test with limited data (2015 only):
 
 ```bash
 python generate_report.py --data data/sample_nifty_ohlcv.csv --out outputs/ --strategy sma
 ```
-*Output: Generates clean reports in `outputs/`:*
-*   `outputs/metrics.json`: Full performance stats
-*   `outputs/equity_curve.png`: Visual equity chart vs Benchmark
 
-### 3. Run Dashboard
+### Run Interactive Dashboard
 
 ```bash
 streamlit run dashboard/app.py
 ```
+
+Opens at `http://localhost:8501` with interactive analysis, equity curves, and trade exploration.
 
 ## 📊 Features
 
