@@ -10,7 +10,7 @@ A professional-grade quantitative trading backtester for NIFTY 50 index strategi
 • **Win Rate**: 36% (Avg Win/Loss: 3.2x)
 • **Total Returns**: +690%
 
-![Equity Curve](data/equity_curve.png)
+![Equity Curve](outputs/equity_curve.png)
 
 ## 💼 Professional Summary (CV Ready)
 * **Built a Vectorized Backtesting Engine**: Developed a high-performance Python backtester processing 10 years of NIFTY 50 data with 0% look-ahead bias, handling open-to-open execution and realistic transaction costs (10bps).
@@ -64,7 +64,10 @@ Run the full backtest pipeline, generate metrics, and produce plots with one com
 ```bash
 python src/main.py --strategy sma --config configs/sma.json
 ```
-*Output: Generates `data/strategy_results.csv`, `data/summary_metrics.csv`, and performance plots.*
+*Output: Generates clean reports in `outputs/`:*
+*   `outputs/metrics.json`: Full performance stats (CAGR, Sharpe, etc.)
+*   `outputs/equity_curve.png`: Visual equity chart vs Benchmark
+*   `outputs/strategy_results.csv`: Detailed trade-by-trade log
 
 ### 3. Run Dashboard
 Launch the interactive Streamlit dashboard:

@@ -63,16 +63,21 @@ def main():
     print(f"• Total Returns: {all_metrics['Total_Return']:.0%}")
     print("="*60 + "\n")
 
-    # Ensure data directory exists
+    # Ensure outputs directory exists
+    os.makedirs('outputs', exist_ok=True)
     os.makedirs('data', exist_ok=True)
 
-    # Save results
-    result.to_csv('data/strategy_results.csv')
-    bt.save_trade_log('data/trades.csv')
+    # Save results (CSV for detailed analysis, JSON for summary/programmatic access)
+    result.to_csv('outputs/strategy_results.csv')
+    bt.save_trade_log('outputs/trades.csv')
     
-    # Save summary (Moderate fix)
+    # Save summary (JSON as specifically requested for "metrics.json")
+    with open('outputs/metrics.json', 'w') as f:
+        json.dump(all_metrics, f, indent=4)
+        
+    # Also keep the CSV summary for easy viewing
     summary_df = pd.DataFrame([all_metrics])
-    summary_df.to_csv('data/summary_metrics.csv', index=False)
+    summary_df.to_csv('outputs/summary_metrics.csv', index=False)
     
     # Generate Plots for README
     try:
@@ -87,7 +92,7 @@ def main():
         plt.ylabel('Equity (INR)')
         plt.legend()
         plt.grid(True, alpha=0.3)
-        plt.savefig('data/equity_curve.png')
+        plt.savefig('outputs/equity_curve.png')
         plt.close()
         
         # Drawdown
@@ -102,16 +107,16 @@ def main():
         plt.xlabel('Date')
         plt.ylabel('Drawdown %')
         plt.grid(True, alpha=0.3)
-        plt.savefig('data/drawdown.png')
+        plt.savefig('outputs/drawdown.png')
         plt.close()
-        print("Generated plots in data/equity_curve.png and data/drawdown.png")
+        print("Generated plots in outputs/equity_curve.png and outputs/drawdown.png")
         
     except ImportError:
         print("Matplotlib not installed, skipping plot generation")
     except Exception as e:
         print(f"Error generating plots: {e}")
 
-    print("Results saved to data/strategy_results.csv, data/trades.csv and data/summary_metrics.csv")
+    print("Results saved to outputs/ directory (metrics.json, strategy_results.csv, plots)")
 
 if __name__ == "__main__":
     main()
