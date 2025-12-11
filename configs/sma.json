@@ -1,0 +1,9 @@
+{
+    "sma_window": 50,
+    "initial_capital": 100000,
+    "transaction_cost": 0.001,
+    "dividend_yield": 0.015,
+    "stop_loss": -0.05,
+    "take_profit": 0.10,
+    "position_size": 1.0
+}

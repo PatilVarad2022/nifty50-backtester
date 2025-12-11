@@ -3,7 +3,7 @@ import pandas as pd
 import os
 from datetime import datetime
 
-DATA_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'data_raw.csv')
+DATA_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'raw_nifty.csv')
 
 def fetch_data(ticker='^NSEI', start_date='2015-01-01', end_date=None):
     """
