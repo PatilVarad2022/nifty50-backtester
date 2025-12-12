@@ -37,21 +37,21 @@ def audit_metrics():
     with open('outputs/metrics.json', 'r') as f:
         claimed_metrics = json.load(f)
     
-    print(f"✓ Claimed Strategy: {claimed_metrics['strategy']}")
-    print(f"✓ Claimed Period: {claimed_metrics['period']}")
-    print(f"✓ Claimed CAGR: {claimed_metrics['cagr']:.2%}")
-    print(f"✓ Claimed Sharpe: {claimed_metrics['sharpe']:.2f}")
+    print(f"[OK] Claimed Strategy: {claimed_metrics['strategy']}")
+    print(f"[OK] Claimed Period: {claimed_metrics['period']}")
+    print(f"[OK] Claimed CAGR: {claimed_metrics['cagr']:.2%}")
+    print(f"[OK] Claimed Sharpe: {claimed_metrics['sharpe']:.2f}")
     
     # Load data
     print("\n[2/5] Loading market data...")
     df = pd.read_csv('data/raw_nifty.csv', index_col=0, parse_dates=True)
-    print(f"✓ Data loaded: {len(df)} rows from {df.index[0].date()} to {df.index[-1].date()}")
+    print(f"[OK] Data loaded: {len(df)} rows from {df.index[0].date()} to {df.index[-1].date()}")
     
     # Run backtest with documented parameters
     print("\n[3/5] Running backtest with documented parameters...")
     print("  Parameters:")
     print("    - Strategy: Momentum (SMA-50)")
-    print("    - Initial Capital: ₹100,000")
+    print("    - Initial Capital: Rs.100,000")
     print("    - Transaction Cost: 0.1% (10 bps)")
     print("    - Stop Loss: -5%")
     print("    - Take Profit: +10%")
@@ -65,7 +65,7 @@ def audit_metrics():
     )
     
     result = bt.run_momentum(sma_window=50)
-    print("✓ Backtest complete")
+    print("[OK] Backtest complete")
     
     # Calculate metrics
     print("\n[4/5] Calculating metrics independently...")
@@ -73,7 +73,7 @@ def audit_metrics():
     trade_metrics = calculate_trade_metrics(bt.trades)
     risk_metrics = calculate_additional_risk_metrics(result)
     
-    print("✓ Metrics calculated")
+    print("[OK] Metrics calculated")
     
     # Verify metrics
     print("\n[5/5] Verifying metrics...")
@@ -91,7 +91,7 @@ def audit_metrics():
     print(f"  Claimed:    {claimed_metrics['cagr']:.4f} ({claimed_metrics['cagr']:.2%})")
     print(f"  Calculated: {metrics['CAGR']:.4f} ({metrics['CAGR']:.2%})")
     print(f"  Difference: {cagr_diff:.4f}")
-    print(f"  Status:     {'✓ VERIFIED' if cagr_match else '✗ DISCREPANCY'}")
+    print(f"  Status:     {'[PASS] VERIFIED' if cagr_match else '[FAIL] DISCREPANCY'}")
     if not cagr_match:
         discrepancies.append(f"CAGR: {cagr_diff:.4f} difference")
     
@@ -102,7 +102,7 @@ def audit_metrics():
     print(f"  Claimed:    {claimed_metrics['sharpe']:.2f}")
     print(f"  Calculated: {metrics['Sharpe']:.2f}")
     print(f"  Difference: {sharpe_diff:.2f}")
-    print(f"  Status:     {'✓ VERIFIED' if sharpe_match else '✗ DISCREPANCY'}")
+    print(f"  Status:     {'[PASS] VERIFIED' if sharpe_match else '[FAIL] DISCREPANCY'}")
     if not sharpe_match:
         discrepancies.append(f"Sharpe: {sharpe_diff:.2f} difference")
     
@@ -113,7 +113,7 @@ def audit_metrics():
     print(f"  Claimed:    {claimed_metrics['max_drawdown']:.4f} ({claimed_metrics['max_drawdown']:.2%})")
     print(f"  Calculated: {metrics['Max_Drawdown']:.4f} ({metrics['Max_Drawdown']:.2%})")
     print(f"  Difference: {dd_diff:.4f}")
-    print(f"  Status:     {'✓ VERIFIED' if dd_match else '✗ DISCREPANCY'}")
+    print(f"  Status:     {'[PASS] VERIFIED' if dd_match else '[FAIL] DISCREPANCY'}")
     if not dd_match:
         discrepancies.append(f"Max DD: {dd_diff:.4f} difference")
     
@@ -124,7 +124,7 @@ def audit_metrics():
     print(f"  Claimed:    {claimed_metrics['total_return']:.4f} ({claimed_metrics['total_return']:.2%})")
     print(f"  Calculated: {metrics['Total_Return']:.4f} ({metrics['Total_Return']:.2%})")
     print(f"  Difference: {tr_diff:.4f}")
-    print(f"  Status:     {'✓ VERIFIED' if tr_match else '✗ DISCREPANCY'}")
+    print(f"  Status:     {'[PASS] VERIFIED' if tr_match else '[FAIL] DISCREPANCY'}")
     if not tr_match:
         discrepancies.append(f"Total Return: {tr_diff:.4f} difference")
     
@@ -135,7 +135,7 @@ def audit_metrics():
     print(f"  Claimed:    {claimed_metrics['win_rate']:.4f} ({claimed_metrics['win_rate']:.2%})")
     print(f"  Calculated: {trade_metrics['Win_Rate_Trade']:.4f} ({trade_metrics['Win_Rate_Trade']:.2%})")
     print(f"  Difference: {wr_diff:.4f}")
-    print(f"  Status:     {'✓ VERIFIED' if wr_match else '✗ DISCREPANCY'}")
+    print(f"  Status:     {'[PASS] VERIFIED' if wr_match else '[FAIL] DISCREPANCY'}")
     if not wr_match:
         discrepancies.append(f"Win Rate: {wr_diff:.4f} difference")
     
@@ -144,18 +144,18 @@ def audit_metrics():
     print(f"\nTotal Trades:")
     print(f"  Claimed:    {claimed_metrics['trades']}")
     print(f"  Calculated: {trade_metrics['Total_Trades']}")
-    print(f"  Status:     {'✓ VERIFIED' if trades_match else '✗ DISCREPANCY'}")
+    print(f"  Status:     {'[PASS] VERIFIED' if trades_match else '[FAIL] DISCREPANCY'}")
     if not trades_match:
         discrepancies.append(f"Trades: {abs(trade_metrics['Total_Trades'] - claimed_metrics['trades'])} difference")
     
     # Final verdict
     print("\n" + "="*80)
     if len(discrepancies) == 0:
-        print("✓ AUDIT PASSED: All metrics verified within tolerance")
+        print("[PASS] AUDIT PASSED: All metrics verified within tolerance")
         print("="*80)
         return True
     else:
-        print("✗ AUDIT FAILED: Discrepancies found:")
+        print("[FAIL] AUDIT FAILED: Discrepancies found:")
         for disc in discrepancies:
             print(f"  - {disc}")
         print("="*80)

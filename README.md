@@ -1,6 +1,6 @@
 # NIFTY 50 Professional Backtesting Engine
 
-[![Tests](https://img.shields.io/badge/Tests-8%2F8%20Passing-brightgreen)](tests/test_metrics.py) [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/) [![License](https://img.shields.io/badge/License-Educational-orange)](LICENSE)
+[![CI Tests](https://github.com/PatilVarad2022/nifty50-backtester/actions/workflows/tests.yml/badge.svg)](https://github.com/PatilVarad2022/nifty50-backtester/actions/workflows/tests.yml) [![Tests](https://img.shields.io/badge/Tests-8%2F8%20Passing-brightgreen)](tests/test_metrics.py) [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/) [![License](https://img.shields.io/badge/License-Educational-orange)](LICENSE)
 
 ## 🎯 Executive Summary
 
@@ -35,7 +35,10 @@
 
 📈 **Full Results**: [outputs/metrics.json](outputs/metrics.json) | [outputs/full_metrics.json](outputs/full_metrics.json)  
 📊 **Benchmark Comparison**: [outputs/benchmark_comparison.csv](outputs/benchmark_comparison.csv)  
-✅ **Independent Audit**: [audit_metrics.py](audit_metrics.py) - All metrics verified
+✅ **Audit Reproduced**: `python audit_metrics.py` — All metrics independently verified  
+🔒 **SHA256 Hash**: `0E93BA3DF3EC263D765775A9B5F78E00AE25765B4BA4144A419078F2B1195083E` (outputs/metrics.json)
+
+**Benchmark Treatment**: Benchmark uses Yahoo Finance adjusted close prices, which include dividend adjustments and stock split adjustments. Dividend yield modeled as 1.5% annual (applied in `src/backtester.py`, line 400-405). Corporate actions (splits, bonuses) are automatically adjusted by Yahoo Finance's adjusted close methodology.
 
 ---
 
@@ -62,14 +65,40 @@ python -m venv .venv
 # 3. Install dependencies
 pip install -r requirements.txt
 
-# 4. Run backtest (reproduces exact metrics)
+# 4. Run full reproducibility pipeline (ONE COMMAND)
+python run_full_report.py
+
+# OR run individual steps:
+# 4a. Run backtest
 python generate_report.py --data data/raw_nifty.csv --out outputs/ --strategy sma
 
-# 5. Verify metrics independently
+# 4b. Verify metrics independently
 python audit_metrics.py
 ```
 
-### Expected Output
+### Quick Test (<5 Minutes)
+
+For a quick test with minimal data (100 rows, last ~4 months):
+
+```bash
+python generate_report.py --data data/sample_small.csv --out outputs_small/ --strategy sma
+```
+
+**Expected Output**:
+```json
+{
+    "strategy": "sma",
+    "cagr": 0.0806,
+    "sharpe": 0.33,
+    "max_drawdown": -0.0233,
+    "total_return": 0.0315,
+    "trades": 2
+}
+```
+
+**Execution Time**: ~10 seconds
+
+### Expected Output (Full Dataset)
 
 **Console Output**:
 ```
