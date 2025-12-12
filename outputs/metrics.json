@@ -1,10 +1,15 @@
 {
     "strategy": "sma",
-    "cagr": 0.2081467494455247,
-    "sharpe": 1.3139512057268883,
-    "max_drawdown": -0.08753215688876419,
-    "total_return": 6.897087781755561,
-    "win_rate": 0.3548387096774194,
-    "profit_factor": 1.7849223095371818,
-    "trades": 93
+    "strategy_name": "Momentum (SMA-50)",
+    "period": "2015-2025",
+    "cagr": 0.2081,
+    "sharpe": 1.31,
+    "max_drawdown": -0.0875,
+    "total_return": 6.8971,
+    "win_rate": 0.3548,
+    "profit_factor": 1.78,
+    "trades": 93,
+    "volatility": 0.106,
+    "sortino": 1.61,
+    "calmar": 2.38
 }

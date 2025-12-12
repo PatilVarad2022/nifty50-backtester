@@ -216,6 +216,95 @@ def calculate_trade_metrics(trades_df: pd.DataFrame) -> dict:
     }
 
 
+def calculate_additional_risk_metrics(df: pd.DataFrame, confidence_level: float = 0.95) -> dict:
+    """
+    Calculate additional risk metrics: VaR, CVaR, Ulcer Index, Hit Rate.
+    
+    Args:
+        df: DataFrame with Strategy_Return column
+        confidence_level: Confidence level for VaR/CVaR (default 95%)
+    
+    Returns:
+        Dict with additional risk metrics
+    """
+    strat_ret = df['Strategy_Return'].dropna()
+    
+    if len(strat_ret) == 0:
+        return {
+            "VaR_95": 0.0,
+            "CVaR_95": 0.0,
+            "Ulcer_Index": 0.0,
+            "Hit_Rate": 0.0,
+            "Best_Day": 0.0,
+            "Worst_Day": 0.0
+        }
+    
+    # Value at Risk (VaR) - Historical method
+    var_95 = np.percentile(strat_ret, (1 - confidence_level) * 100)
+    
+    # Conditional VaR (CVaR) - Expected Shortfall
+    # Average of returns worse than VaR
+    cvar_95 = strat_ret[strat_ret <= var_95].mean() if len(strat_ret[strat_ret <= var_95]) > 0 else var_95
+    
+    # Ulcer Index - measures depth and duration of drawdowns
+    equity = df['Strategy_Equity'].values
+    if len(equity) > 1:
+        running_max = pd.Series(equity).expanding().max()
+        drawdown_pct = ((equity - running_max) / running_max) * 100  # As percentage
+        ulcer_index = np.sqrt(np.mean(drawdown_pct ** 2))
+    else:
+        ulcer_index = 0.0
+    
+    # Hit Rate - percentage of positive return days
+    hit_rate = (strat_ret > 0).sum() / len(strat_ret) if len(strat_ret) > 0 else 0
+    
+    # Best and worst days
+    best_day = strat_ret.max()
+    worst_day = strat_ret.min()
+    
+    return {
+        "VaR_95": var_95,
+        "CVaR_95": cvar_95,
+        "Ulcer_Index": ulcer_index,
+        "Hit_Rate": hit_rate,
+        "Best_Day": best_day,
+        "Worst_Day": worst_day
+    }
+
+
+def calculate_rolling_metrics(df: pd.DataFrame, window: int = 252) -> pd.DataFrame:
+    """
+    Calculate rolling performance metrics.
+    
+    Args:
+        df: DataFrame with Strategy_Return column
+        window: Rolling window in days (default 252 = 1 year)
+    
+    Returns:
+        DataFrame with rolling metrics
+    """
+    strat_ret = df['Strategy_Return'].dropna()
+    
+    # Rolling Sharpe
+    rolling_mean = strat_ret.rolling(window).mean() * 252
+    rolling_std = strat_ret.rolling(window).std() * np.sqrt(252)
+    rolling_sharpe = (rolling_mean - 0.06) / rolling_std
+    
+    # Rolling volatility
+    rolling_vol = strat_ret.rolling(window).std() * np.sqrt(252)
+    
+    # Rolling max drawdown
+    rolling_cumret = (1 + strat_ret).rolling(window).apply(lambda x: x.prod(), raw=False)
+    rolling_peak = rolling_cumret.rolling(window).max()
+    rolling_dd = (rolling_cumret - rolling_peak) / rolling_peak
+    
+    return pd.DataFrame({
+        'Rolling_Sharpe': rolling_sharpe,
+        'Rolling_Volatility': rolling_vol,
+        'Rolling_Max_DD': rolling_dd
+    }, index=df.index)
+
+
 def _empty_metrics():
     """Return empty metrics dict for edge cases."""
     return {
